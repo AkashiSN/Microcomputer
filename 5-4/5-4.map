@@ -1,0 +1,44 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Fri Dec 16 14:00:36 2016
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x00003c
+                   .cinit    romdata   0x00001e    program   0x000004
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00001f      
+            32 out of 1094 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    LOOP1   0x00000c    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                    LOOP2   0x000012    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                    LOOP3   0x000019    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                   REPEAT   0x000003    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                   TIMER1   0x00000a    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                   TIMER2   0x000010    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                   TIMER3   0x000017    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   REPEAT   0x000003    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                   TIMER1   0x00000a    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                    LOOP1   0x00000c    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                   TIMER2   0x000010    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                    LOOP2   0x000012    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                   TIMER3   0x000017    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+                    LOOP3   0x000019    program     static C:\Users\Nishi\Documents\Micon\5-4\5-4.asm
+
+
