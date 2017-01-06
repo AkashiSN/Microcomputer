@@ -1,5 +1,5 @@
 MPLINK 4.49, Linker
-Linker Map File - Created Fri Dec 16 14:23:50 2016
+Linker Map File - Created Fri Jan 06 13:50:35 2017
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -20,25 +20,25 @@ Linker Map File - Created Fri Dec 16 14:23:50 2016
                               Symbols - Sorted by Name
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                    LOOP1   0x00000b    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                    LOOP2   0x000011    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                    LOOP3   0x000018    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                   REPEAT   0x000006    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                   TIMER1   0x000009    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                   TIMER2   0x00000f    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                   TIMER3   0x000016    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
+                    LOOP1   0x00000b    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                    LOOP2   0x000011    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                    LOOP3   0x000018    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                   REPEAT   0x000006    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                   TIMER1   0x000009    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                   TIMER2   0x00000f    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                   TIMER3   0x000016    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
 
 
 
                               Symbols - Sorted by Address
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
-                   REPEAT   0x000006    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                   TIMER1   0x000009    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                    LOOP1   0x00000b    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                   TIMER2   0x00000f    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                    LOOP2   0x000011    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                   TIMER3   0x000016    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
-                    LOOP3   0x000018    program     static C:\Users\Nishi\Documents\Micon\5-5\5-5.asm
+                   REPEAT   0x000006    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                   TIMER1   0x000009    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                    LOOP1   0x00000b    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                   TIMER2   0x00000f    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                    LOOP2   0x000011    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                   TIMER3   0x000016    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
+                    LOOP3   0x000018    program     static C:\Users\Nishi\Documents\GitHub\Microcomputer\5-5\5-5.asm
 
 

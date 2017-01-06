@@ -1,12 +1,14 @@
-MPASM  5.51                           5-5.ASM   1-6-2017  13:50:34         PAGE  1
+MPASM  5.51                           5-6.ASM   1-6-2017  14:20:04         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00001 ;5-5
-                      00002                 LIST    P=PIC16F84A
-                      00003                 INCLUDE "P16F84A.INC"
+                      00001 ;5-6
+                      00002 ;header
+Warning[215]: Processor superseded by command line.  Verify processor symbol.
+                      00003         LIST    P=P16F84A
+                      00004         INCLUDE "P16F84A.INC"
                       00001         LIST
                       00002 
                       00003 ;==========================================================================
@@ -16,58 +18,73 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00007 ;==========================================================================
                       00008 
                       00208         LIST
-                      00004 ;
-  00000080            00005 LEDD    EQU             80H
-  0000000C            00006 CNT1    EQU             0CH
-  0000000D            00007 CNT2    EQU             0DH
-  0000000E            00008 CNT3    EQU             0EH
-                      00009 ;
-                      00010                 ORG             0
-                      00011 
-0000   1683           00012                 BSF             STATUS,RP0
+                      00005 
+                      00006 ;var
+                      00007 ;LEDD   EQU     80H    ;左端から右方向にスタート
+  00000001            00008 LEDD    EQU     01H    ;右端から左方向にスタート
+  0000000C            00009 CNT1    EQU     0CH
+  0000000D            00010 CNT2    EQU     0DH
+  0000000E            00011 CNT3    EQU     0EH
+                      00012 
+                      00013 ;main
+0000                  00014         ORG     0
+                      00015 
+0000   1683           00016         BSF     STATUS,RP0
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0001   0186           00013                 CLRF    TRISB
-0002   1283           00014                 BCF             STATUS,RP0
-0003   1003           00015                 BCF             STATUS,C
-                      00016 
-0004   3080           00017                 MOVLW   LEDD
-0005   0086           00018                 MOVWF   PORTB
-0006   2???           00019 REPEAT  CALL    TIMER3
-0007   0C86           00020                 RRF             PORTB,1         ;右方向
-                      00021 ;               RLF             PORTB,1         ;左方向
-0008   2???           00022                 GOTO    REPEAT
-                      00023 
-0009   303E           00024 TIMER1  MOVLW   D'62'
-000A   008C           00025                 MOVWF   CNT1
-000B   0000           00026 LOOP1   NOP
-000C   0B8C           00027                 DECFSZ  CNT1,F
-000D   2???           00028                 GOTO    LOOP1
-000E   0008           00029                 RETURN
+0001   0186           00017         CLRF    TRISB
+0002   1283           00018         BCF     STATUS,RP0
+0003   1003           00019         BCF     STATUS,C
+0004   3001           00020         MOVLW   LEDD
+0005   0086           00021         MOVWF   PORTB
+                      00022 
+0006   2020           00023 RIGHT   CALL    TIMER3
+0007   0C86           00024         RRF     PORTB,1
+0008   1C03           00025         BTFSS   STATUS,C
+0009   2806           00026         GOTO    RIGHT
+                      00027 
+000A   0D86           00028         RLF     PORTB,1
+000B   0D86           00029         RLF     PORTB,1
                       00030 
-000F   3064           00031 TIMER2  MOVLW   D'100'
-0010   300D           00032                 MOVLW   CNT2
-0011   0000           00033 LOOP2   NOP
-0012   2???           00034                 CALL    TIMER1
-0013   0B8D           00035                 DECFSZ  CNT2,F
-0014   2???           00036                 GOTO    LOOP2
-0015   0008           00037                 RETURN
-                      00038 
-0016   3032           00039 TIMER3  MOVLW   D'50'
-0017   008E           00040                 MOVWF   CNT3
-0018   0000           00041 LOOP3   NOP
-0019   2???           00042                 CALL    TIMER2
-001A   0B8E           00043                 DECFSZ  CNT3,F
-MPASM  5.51                           5-5.ASM   1-6-2017  13:50:34         PAGE  2
+000C   2020           00031 LEFT    CALL    TIMER3
+000D   0D86           00032         RLF     PORTB,1
+000E   1C03           00033         BTFSS   STATUS,C
+000F   280C           00034         GOTO    LEFT
+                      00035 
+0010   0C86           00036         RRF     PORTB,1
+0011   0C86           00037         RRF     PORTB,1
+0012   2806           00038         GOTO    RIGHT
+                      00039 
+0013   303E           00040 TIMER1  MOVLW   D'62'
+0014   008C           00041         MOVWF   CNT1
+0015   0000           00042 LOOP1   NOP
+MPASM  5.51                           5-6.ASM   1-6-2017  14:20:04         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-001B   2???           00044                 GOTO    LOOP3
-001C   0008           00045                 RETURN
+0016   0B8C           00043         DECFSZ  CNT1,F
+0017   2815           00044         GOTO    LOOP1
+0018   0008           00045         RETURN
                       00046 
-                      00047                 END
-MPASM  5.51                           5-5.ASM   1-6-2017  13:50:34         PAGE  3
+0019   3064           00047 TIMER2  MOVLW   D'100'
+001A   008D           00048         MOVWF   CNT2
+001B   0000           00049 LOOP2   NOP
+001C   2013           00050         CALL    TIMER1
+001D   0B8D           00051         DECFSZ  CNT2,F
+001E   281B           00052         GOTO    LOOP2
+001F   0008           00053         RETURN
+                      00054 
+0020   3014           00055 TIMER3  MOVLW   D'20'
+0021   008E           00056         MOVWF   CNT3
+0022   0000           00057 LOOP3   NOP
+0023   2019           00058         CALL    TIMER2
+0024   0B8E           00059         DECFSZ  CNT3,F
+0025   2822           00060         GOTO    LOOP3
+0026   0008           00061         RETURN
+                      00062 
+                      00063         END
+MPASM  5.51                           5-6.ASM   1-6-2017  14:20:04         PAGE  3
 
 
 SYMBOL TABLE
@@ -93,10 +110,11 @@ INTE                              00000004
 INTEDG                            00000006
 INTF                              00000001
 IRP                               00000007
-LEDD                              00000080
-LOOP1                             0000000B
-LOOP2                             00000011
-LOOP3                             00000018
+LEDD                              00000001
+LEFT                              0000000C
+LOOP1                             00000015
+LOOP2                             0000001B
+LOOP3                             00000022
 NOT_PD                            00000003
 NOT_RBPU                          00000007
 NOT_TO                            00000004
@@ -125,13 +143,13 @@ RB7                               00000007
 RBIE                              00000003
 RBIF                              00000000
 RD                                00000000
-REPEAT                            00000006
-MPASM  5.51                           5-5.ASM   1-6-2017  13:50:34         PAGE  4
+MPASM  5.51                           5-6.ASM   1-6-2017  14:20:04         PAGE  4
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+RIGHT                             00000006
 RP0                               00000005
 RP1                               00000006
 STATUS                            00000003
@@ -139,9 +157,9 @@ T0CS                              00000005
 T0IE                              00000005
 T0IF                              00000002
 T0SE                              00000004
-TIMER1                            00000009
-TIMER2                            0000000F
-TIMER3                            00000016
+TIMER1                            00000013
+TIMER2                            00000019
+TIMER3                            00000020
 TMR0                              00000001
 TMR0IE                            00000005
 TMR0IF                            00000002
@@ -184,20 +202,31 @@ _PWRTE_ON                         00003FF7
 _RC_OSC                           00003FFF
 _WDTE_OFF                         00003FFB
 _WDTE_ON                          00003FFF
-_WDT_OFF                          00003FFB
-MPASM  5.51                           5-5.ASM   1-6-2017  13:50:34         PAGE  5
+MPASM  5.51                           5-6.ASM   1-6-2017  14:20:04         PAGE  5
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+_WDT_OFF                          00003FFB
 _WDT_ON                           00003FFF
 _XT_OSC                           00003FFD
 __16F84A                          00000001
 __DEBUG                           1
 
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXX--------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    39
+Program Memory Words Free:   985
+
+
 Errors   :     0
-Warnings :     0 reported,     0 suppressed
+Warnings :     1 reported,     0 suppressed
 Messages :     1 reported,     0 suppressed
 
 
