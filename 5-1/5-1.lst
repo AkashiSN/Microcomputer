@@ -1,12 +1,12 @@
-MPASM  5.51                           5-1.ASM   12-16-2016  18:02:12         PAGE  1
+MPASM  5.51                           5-1.ASM   1-8-2017  13:42:04         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
                       00001 ;5-1
-                      00002                 LIST    P=PIC16F84A
-                      00003                 INCLUDE "P16F84A.INC"
+                      00002         LIST    P=PIC16F84A
+                      00003         INCLUDE "P16F84A.INC"
                       00001         LIST
                       00002 
                       00003 ;==========================================================================
@@ -17,20 +17,20 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00008 
                       00208         LIST
                       00004 
-  00000055            00005 LEDD    EQU             55H
+  00000055            00005 LEDD    EQU     55H
                       00006 
-0000                  00007                 ORG             0
-0000   1683           00008                 BSF             STATUS,RP0
+0000                  00007         ORG     0
+0000   1683           00008         BSF     STATUS,RP0
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0001   0186           00009                 CLRF    TRISB
-0002   1283           00010                 BCF             STATUS,RP0
-0003   0186           00011                 CLRF    PORTB
-0004   3055           00012                 MOVLW   LEDD
-0005   0086           00013                 MOVWF   PORTB
+0001   0186           00009         CLRF    TRISB
+0002   1283           00010         BCF     STATUS,RP0
+0003   0186           00011         CLRF    PORTB
+0004   3055           00012         MOVLW   LEDD
+0005   0086           00013         MOVWF   PORTB
 0006   2806           00014 WAIT    GOTO    WAIT
                       00015 
-                      00016                 END
-MPASM  5.51                           5-1.ASM   12-16-2016  18:02:12         PAGE  2
+                      00016         END
+MPASM  5.51                           5-1.ASM   1-8-2017  13:42:04         PAGE  2
 
 
 SYMBOL TABLE
@@ -89,7 +89,7 @@ T0CS                              00000005
 T0IE                              00000005
 T0IF                              00000002
 T0SE                              00000004
-MPASM  5.51                           5-1.ASM   12-16-2016  18:02:12         PAGE  3
+MPASM  5.51                           5-1.ASM   1-8-2017  13:42:04         PAGE  3
 
 
 SYMBOL TABLE
@@ -143,7 +143,7 @@ _WDT_ON                           00003FFF
 _XT_OSC                           00003FFD
 __16F84A                          00000001
 __DEBUG                           1
-MPASM  5.51                           5-1.ASM   12-16-2016  18:02:12         PAGE  4
+MPASM  5.51                           5-1.ASM   1-8-2017  13:42:04         PAGE  4
 
 
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)

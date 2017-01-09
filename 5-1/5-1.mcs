@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=C:\Users\Nishi\Documents\Micon\5-1\5-1.o
+Location=Z:\home\nishi\GitHub\Microcomputer\5-1\5-1.o
 Folder=Intermediary
 DeviceName=PIC16F84A
 LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
@@ -15,7 +15,7 @@ ToolArgsString=
 TraceCmdString=
 DebugOptions=/d__DEBUG=1
 [File001]
-Location=C:\Users\Nishi\Documents\Micon\5-1\5-1.err
+Location=Z:\home\nishi\GitHub\Microcomputer\5-1\5-1.err
 Folder=Intermediary
 DeviceName=PIC16F84A
 LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
@@ -28,7 +28,7 @@ ToolArgsString=
 TraceCmdString=
 DebugOptions=/d__DEBUG=1
 [File002]
-Location=C:\Users\Nishi\Documents\Micon\5-1\5-1.hex
+Location=Z:\home\nishi\GitHub\Microcomputer\5-1\5-1.hex
 Folder=Output
 DeviceName=PIC16F84A
 LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
@@ -41,7 +41,7 @@ ToolArgsString=
 TraceCmdString=
 DebugOptions=/d__DEBUG=1
 [File003]
-Location=C:\Users\Nishi\Documents\Micon\5-1\5-1.lst
+Location=Z:\home\nishi\GitHub\Microcomputer\5-1\5-1.lst
 Folder=Output
 DeviceName=PIC16F84A
 LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}
@@ -54,7 +54,7 @@ ToolArgsString=
 TraceCmdString=
 DebugOptions=/d__DEBUG=1
 [File004]
-Location=C:\Users\Nishi\Documents\Micon\5-1\5-1.cof
+Location=Z:\home\nishi\GitHub\Microcomputer\5-1\5-1.cof
 Folder=Output
 DeviceName=PIC16F84A
 LanguageToolSuiteID={6B3DAA78-59C1-46DD-B6AA-DBDAE4E06484}

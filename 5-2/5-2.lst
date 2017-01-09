@@ -1,0 +1,41 @@
+MPASM  5.51                           5-2.ASM   1-8-2017  20:25:36         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0000   303E           00001 TIMER   MOVLW   D'62'
+Error[113]  : Symbol not previously defined (CNT1)
+0001   0080           00002         MOVWF   CNT1
+0002   0000           00003 LOOP1   NOP
+Error[113]  : Symbol not previously defined (CNT1)
+0003   0B80           00004         DECFSZ  CNT1,F
+0004   2802           00005         GOTO    LOOP1
+Error[129]  : Expected (END)
+MPASM  5.51                           5-2.ASM   1-8-2017  20:25:36         PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+LOOP1                             00000002
+TIMER                             00000000
+__16F84A                          00000001
+__DEBUG                           1
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXX----------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:     5
+Program Memory Words Free:  1019
+
+
+Errors   :     3
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

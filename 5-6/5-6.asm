@@ -2,14 +2,12 @@
 ;header
         LIST    P=P16F84A
         INCLUDE "P16F84A.INC"
-
 ;var
-;LEDD   EQU     80H    ;左端から右方向にスタート
-LEDD    EQU     01H    ;右端から左方向にスタート
+;LEDD   EQU     80H             ;左端から右方向にスタート
+LEDD    EQU     01H             ;右端から左方向にスタート
 CNT1    EQU     0CH
 CNT2    EQU     0DH
 CNT3    EQU     0EH
-
 ;main
         ORG     0
 
@@ -25,7 +23,7 @@ RIGHT   CALL    TIMER3
         BTFSS   STATUS,C
         GOTO    RIGHT
 
-        RLF     PORTB,1
+        RLF     PORTB,1         ;過分ローテイトの復旧
         RLF     PORTB,1
 
 LEFT    CALL    TIMER3
@@ -33,7 +31,7 @@ LEFT    CALL    TIMER3
         BTFSS   STATUS,C
         GOTO    LEFT
 
-        RRF     PORTB,1
+        RRF     PORTB,1         ;過分ローテイトの復旧
         RRF     PORTB,1
         GOTO    RIGHT
 

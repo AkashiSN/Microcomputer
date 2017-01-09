@@ -1,4 +1,4 @@
-MPASM  5.51                           5-7.ASM   1-6-2017  14:34:24         PAGE  1
+MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;5-7
                       00002 ;header
-                      00003                 LIST    P=PIC16F84A
-                      00004                 INCLUDE "P16F84A.INC"
+                      00003         LIST    P=PIC16F84A
+                      00004         INCLUDE "P16F84A.INC"
                       00001         LIST
                       00002 
                       00003 ;==========================================================================
@@ -17,30 +17,29 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00007 ;==========================================================================
                       00008 
                       00208         LIST
-                      00005 
-                      00006 ;main
-0000                  00007                 ORG     0
-                      00008 
-0000   1683           00009                 BSF     STATUS,RP0
-0001   301F           00010                 MOVLW   1FH
+                      00005 ;main
+0000                  00006         ORG     0
+                      00007 
+0000   1683           00008         BSF     STATUS,RP0
+0001   301F           00009         MOVLW   1FH
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0002   0085           00011                 MOVWF   TRISA
+0002   0085           00010         MOVWF   TRISA
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0003   0186           00012                 CLRF    TRISB
-0004   1283           00013                 BCF     STATUS,RP0
-0005   0186           00014                 CLRF    PORTB
-                      00015 
-0006   0103           00016                 CLRW
-0007   1805           00017                 BTFSC   PORTA,0
-0008   300F           00018                 MOVLW   0FH
-0009   1885           00019                 BTFSC   PORTA,1
-000A   38F0           00020                 IORLW   0F0H
-000B   0086           00021                 MOVWF   PORTB
-                      00022 
-000C   280C           00023 WAIT    GOTO    WAIT
-                      00024 
-                      00025                 END
-MPASM  5.51                           5-7.ASM   1-6-2017  14:34:24         PAGE  2
+0003   0186           00011         CLRF    TRISB
+0004   1283           00012         BCF     STATUS,RP0
+0005   0186           00013         CLRF    PORTB
+                      00014 
+0006   0103           00015         CLRW
+0007   1805           00016         BTFSC   PORTA,0
+0008   300F           00017         MOVLW   0FH
+0009   1885           00018         BTFSC   PORTA,1
+000A   38F0           00019         IORLW   0F0H
+000B   0086           00020         MOVWF   PORTB
+                      00021 
+000C   280C           00022 WAIT    GOTO    WAIT
+                      00023 
+                      00024         END
+MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  2
 
 
 SYMBOL TABLE
@@ -99,7 +98,7 @@ T0IE                              00000005
 T0IF                              00000002
 T0SE                              00000004
 TMR0                              00000001
-MPASM  5.51                           5-7.ASM   1-6-2017  14:34:24         PAGE  3
+MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  3
 
 
 SYMBOL TABLE
@@ -152,7 +151,7 @@ _WDT_ON                           00003FFF
 _XT_OSC                           00003FFD
 __16F84A                          00000001
 __DEBUG                           1
-MPASM  5.51                           5-7.ASM   1-6-2017  14:34:24         PAGE  4
+MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  4
 
 
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
