@@ -5,4 +5,8 @@
 ;var
 WORK    EQU     0CH
 CNT1    EQU     0DH
-CNT
+CNT2    EQU     0EH
+CNT3    EQU     0FH
+;main
+
+

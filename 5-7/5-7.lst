@@ -1,4 +1,4 @@
-MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  1
+MPASM  5.51                           5-7.ASM   1-16-2017  21:09:25         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,6 +6,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;5-7
                       00002 ;header
+Warning[215]: Processor superseded by command line.  Verify processor symbol.
                       00003         LIST    P=PIC16F84A
                       00004         INCLUDE "P16F84A.INC"
                       00001         LIST
@@ -16,36 +17,41 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
                       00007 ;==========================================================================
                       00008 
+Message[301]: MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
+Error[126]  : Argument out of range (must be greater than or equal to 255)
+Error[126]  : Argument out of range (__MAXRAM must be used first)
+Error[126]  : Argument out of range (__MAXRAM must be used first)
+Error[126]  : Argument out of range (__MAXRAM must be used first)
                       00208         LIST
                       00005 ;main
-0000                  00006         ORG     0
+000000                00006         ORG     0
                       00007 
-0000   1683           00008         BSF     STATUS,RP0
-0001   301F           00009         MOVLW   1FH
-Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0002   0085           00010         MOVWF   TRISA
-Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0003   0186           00011         CLRF    TRISB
-0004   1283           00012         BCF     STATUS,RP0
-0005   0186           00013         CLRF    PORTB
+000000 8A03           00008         BSF     STATUS,RP0
+000002 0E1F           00009         MOVLW   1FH
+000004 6F85           00010         MOVWF   TRISA
+000006 6B86           00011         CLRF    TRISB
+000008 9A03           00012         BCF     STATUS,RP0
+00000A 6A06           00013         CLRF    PORTB
                       00014 
-0006   0103           00015         CLRW
-0007   1805           00016         BTFSC   PORTA,0
-0008   300F           00017         MOVLW   0FH
-0009   1885           00018         BTFSC   PORTA,1
-000A   38F0           00019         IORLW   0F0H
-000B   0086           00020         MOVWF   PORTB
+Warning[207]: Found label after column 1. (CLRW)
+00000C                00015         CLRW
+00000C B005           00016         BTFSC   PORTA,0
+00000E 0E0F           00017         MOVLW   0FH
+000010 B205           00018         BTFSC   PORTA,1
+000012 09F0           00019         IORLW   0F0H
+000014 6E06           00020         MOVWF   PORTB
                       00021 
-000C   280C           00022 WAIT    GOTO    WAIT
+000016 EF0B F000      00022 WAIT    GOTO    WAIT
                       00023 
                       00024         END
-MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  2
+MPASM  5.51                           5-7.ASM   1-16-2017  21:09:25         PAGE  2
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
 C                                 00000000
+CLRW                              0000000C
 DC                                00000001
 EEADR                             00000009
 EECON1                            00000088
@@ -97,13 +103,13 @@ T0CS                              00000005
 T0IE                              00000005
 T0IF                              00000002
 T0SE                              00000004
-TMR0                              00000001
-MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  3
+MPASM  5.51                           5-7.ASM   1-16-2017  21:09:25         PAGE  3
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+TMR0                              00000001
 TMR0IE                            00000005
 TMR0IF                            00000002
 TRISA                             00000085
@@ -122,7 +128,7 @@ TRISB5                            00000005
 TRISB6                            00000006
 TRISB7                            00000007
 W                                 00000000
-WAIT                              0000000C
+WAIT                              00000016
 WR                                00000001
 WREN                              00000002
 WRERR                             00000003
@@ -149,24 +155,24 @@ _WDTE_ON                          00003FFF
 _WDT_OFF                          00003FFB
 _WDT_ON                           00003FFF
 _XT_OSC                           00003FFD
-__16F84A                          00000001
+__18F452                          00000001
 __DEBUG                           1
-MPASM  5.51                           5-7.ASM   1-9-2017  1:23:38         PAGE  4
+MPASM  5.51                           5-7.ASM   1-16-2017  21:09:25         PAGE  4
 
 
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
 
 
-0000 : XXXXXXXXXXXXX--- ---------------- ---------------- ----------------
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXX------ ---------------- ----------------
 
 All other memory blocks unused.
 
-Program Memory Words Used:    13
-Program Memory Words Free:  1011
+Program Memory Bytes Used:    26
+Program Memory Bytes Free: 32742
 
 
-Errors   :     0
-Warnings :     0 reported,     0 suppressed
-Messages :     2 reported,     0 suppressed
+Errors   :     4
+Warnings :     2 reported,     0 suppressed
+Messages :     1 reported,     0 suppressed
 
 
