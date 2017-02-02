@@ -1,6 +1,8 @@
-/5-6/5-6.X/nbproject/private/
-/5-6/5-6.X/dist/default/
-/5-1.X/nbproject/private/
-/5-1/nbproject/private/
-/5-1/build/default/
-/5-1/dist/default/
+*.O
+*.cof
+*.err
+*.lst
+*.map
+*.mcp
+*.mcs
+*.mcw

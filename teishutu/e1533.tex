@@ -49,13 +49,14 @@
    ○○○○○○●○ \\
    {1}_{16}  = 00000001_2 \\
    ○○○○○○○● \\
+   Cフラグ \\
+   ○○○○○○○○ \\
    ●:点灯○:消灯
   \end{eqnarray*}
   このように、0.5秒毎に光る場所が、右に動いていく。右端に到達すると、すべてのLEDが消えるタイミングがある。
   \subsection{考察}
   ローテイト(RRF)命令は１ビットずつ右にシフトさせるもので、16進数において1ビット右にシフトさせることは2で割ることになる。
   RRF命令はCフラグを経由してデータを回転するので端に到達したら一時的に全部が消える瞬間がある。
-  この操作を0.5秒のタイマルーチンで呼び出すことで、0.5秒毎に光が動いているように見える。\\
 
   PICのクロック周波数は$10\si{\mega\hertz}$なので、1クロックあたりは
     \[
@@ -82,6 +83,8 @@
       \SI{0.1}{\milli\second} \times 100 \times 50 = \SI{50}{\milli\second} = \SI{0.5}{\second}
      \]
      合計で$\SI{0.5}{\second}$のタイマールーチンである。
+
+     この操作を0.5秒のタイマルーチンで呼び出すことで、0.5秒毎に光が動いているように見える。
   \subsection{練習問題5.6}
      \subsubsection{問題}
      リスト5-5を点灯が左方向に移動するように変更せよ。
@@ -91,8 +94,13 @@
         RLF     PORTB,1     ;左方向
   \end{lstlisting}
   このようにRRFをRLFに変更する。
-  16進数で1ビット左にシフトさせることは２をかけることになる。
+
+  RLF命令は１ビットずつ左にシフトさせるもので、16進数で1ビット左にシフトさせることは２をかけることになる。
+  RLF命令もRRF命令と同様に、Cフラグを経由してデータを回転するので、端に到達したら一時的に全部が消える瞬間がある。
   \subsection{練習問題5.7}
+   \subsubsection{問題}
+   リスト5-5で、点灯の移動するスピードを早くして、目で確認できる最小の移動時間を調べなさい。
+   \subsubsection{回答}
   \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
 TIMER1  MOVLW   D'62'       ;0.1ms
         MOVWF   CNT1
@@ -117,21 +125,32 @@ LOOP3   NOP
         GOTO    LOOP3
         RETURN
   \end{lstlisting}
-  このようにタイマのところを変更する。
+  このようにTIMER1のカウントはそのままにして、TIMER2とTIMER3のカウントのところを変更すると、
+
+  \[
+   \SI{0.1}{\milli\second} \times 100 \times 10 = \SI{10}{\milli\second} = \SI{0.1}{\second}
+  \]
+
+  と、0.1秒間隔になりこれが目で確認できる最小の移動時間であるとわかった。
+
   \clearpage
  \section{リスト5-6(光が流れるプログラム(往復バージョン))}
-  \subsection{フローチャート}
-  \begin{figure}[htbp]
-   \begin{center}
-    \includegraphics[height=145mm]{Diagram5-6.eps}
-   \end{center}
-   \caption{フローチャート}
-   \label{fig}
-  \end{figure}
+  \subsection{プログラム概要}
+  8個LEDの1個を左端や右端から順次点灯していき、端に到達したら逆方向に点灯させることでLEDの点灯が、往復して流れるように見えるプログラム。
   \subsection{ソースコード}
   \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
    {../5-6/5-6.asm}
   \end{lstinputlisting}
+  \clearpage
+  \subsection{フローチャート}
+  \begin{figure}[htbp]
+   \begin{center}
+    \includegraphics[height=170mm]{Diagram5-6.eps}
+   \end{center}
+   \caption{フローチャート}
+   \label{fig}
+  \end{figure}
+  \clearpage
   \subsection{実行結果}
   \begin{eqnarray*}
    {80}_{16} = 10000000_2 \\
@@ -166,7 +185,7 @@ LOOP3   NOP
    ●○○○○○○○ \\
    ●:点灯○:消灯
   \end{eqnarray*}
-  0.2秒毎に光るところが右に動いていき右端になったら、左方向に戻ってくる。
+  左端から、0.2秒毎に光るところが右に動いていき右端になったら、左方向に戻ってくる。
   \subsection{考察}
   ローテイト命令は、Cフラグを含めてシフトするので、光が右端（０ビット目）または左端（７ビット目）に移動したことをCフラグで判定。
   Cフラグが１の場合はオーバーフローかアンダーフローしているので、過分ローテイトの復旧（２ビット復旧）することで、なめらかに移動するように見える。

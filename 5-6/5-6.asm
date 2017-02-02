@@ -20,7 +20,7 @@ CNT3    EQU     0EH
 
 RIGHT   CALL    TIMER3
         RRF     PORTB,1
-        BTFSS   STATUS,C
+        BTFSS   STATUS,C        ;StatusレジスタのCビットが1なら次の命令をスキップ
         GOTO    RIGHT
 
         RLF     PORTB,1         ;過分ローテイトの復旧
@@ -28,7 +28,7 @@ RIGHT   CALL    TIMER3
 
 LEFT    CALL    TIMER3
         RLF     PORTB,1
-        BTFSS   STATUS,C
+        BTFSS   STATUS,C        ;StatusレジスタのCビットが1なら次の命令をスキップ
         GOTO    LEFT
 
         RRF     PORTB,1         ;過分ローテイトの復旧

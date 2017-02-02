@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.6-u1.20-141210-2.6 (utf8.uptex) (TeX Live 2015/Debian) (preloaded format=uplatex 2017.1.8)  27 JAN 2017 14:25
+This is e-upTeX, Version 3.14159265-p3.6-u1.20-141210-2.6 (utf8.uptex) (TeX Live 2015/Debian) (preloaded format=uplatex 2017.1.8)  2 FEB 2017 21:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -571,18 +571,22 @@ LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
 File: Diagram5-5.eps Graphic file (type eps)
  <Diagram5-5.eps> [4]
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 7.69775pt on input line 60.
+(Font)              scaled to size 7.69775pt on input line 61.
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 5.77332pt on input line 60.
+(Font)              scaled to size 5.77332pt on input line 61.
 File: Diagram5.eps Graphic file (type eps)
  <Diagram5.eps> [5
 
-] [6] [7]
-File: Diagram5-6.eps Graphic file (type eps)
- <Diagram5-6.eps>
-[8
+] [6] [7] [8
 
-] [9] [10] [11] (./e1533.aux)
+] [9]
+File: Diagram5-6.eps Graphic file (type eps)
+
+<Diagram5-6.eps> [10
+
+] [11
+
+] [12] (./e1533.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -590,10 +594,10 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  11811 strings out of 494857
  245966 string characters out of 6179756
- 299361 words of memory out of 5000000
+ 286362 words of memory out of 5000000
  15194 multiletter control sequences out of 15000+600000
  16337 words of font info for 76 fonts, out of 8000000 for 9000
  264 hyphenation exceptions out of 8191
- 34i,7n,42p,10372b,1583s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,7n,42p,10372b,1565s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on e1533.dvi (11 pages, 29108 bytes).
+Output written on e1533.dvi (12 pages, 31524 bytes).
