@@ -1,8 +1,8 @@
-*.O
-*.cof
-*.err
-*.lst
-*.map
-*.mcp
-*.mcs
-*.mcw
+.O
+.cof
+.err
+.lst
+.map
+.mcp
+.mcs
+.mcw
