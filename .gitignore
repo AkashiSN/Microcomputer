@@ -1,0 +1,15 @@
+*.O
+*.o
+*.hex
+*.HEX
+*.cof
+*.err
+*.lst
+*.map
+*.mcp
+*.mcs
+*.mcw
+*.aux
+*.log
+*.gz
+*.toc
