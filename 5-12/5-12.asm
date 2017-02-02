@@ -73,7 +73,7 @@ LOOP2   NOP
         GOTO    LOOP2
         RETURN
 
-TIMER3  MOVLW   D'50'           ;0.5ミリ秒タイマサブルーチン
+TIMER3  MOVLW   D'50'           ;0.5秒タイマサブルーチン
         MOVWF   CNT3
 LOOP3   NOP
         CALL    TIMER2
