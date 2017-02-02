@@ -1,1 +1,0 @@
-TIMER1   NOP

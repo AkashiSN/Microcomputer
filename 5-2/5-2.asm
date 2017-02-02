@@ -1,5 +1,0 @@
-TIMER   MOVLW   D'62'
-        MOVWF   CNT1
-LOOP1   NOP
-        DECFSZ  CNT1,F
-        GOTO    LOOP1
