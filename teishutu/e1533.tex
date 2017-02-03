@@ -1,6 +1,6 @@
 \documentclass[a4paper,12pt]{ujarticle}
 \usepackage{listings,jlisting}
-\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage[top=15truemm,bottom=15truemm,left=20truemm,right=20truemm]{geometry}
 \usepackage[dvips]{graphicx}
 \usepackage{siunitx}
 \begin{document}
@@ -9,8 +9,11 @@
 \date{2017年2月10日提出}
 \maketitle
 \begin{itemize}
- \item 光が流れるプログラム(片道バージョン)
+ \item \large 光が流れるプログラム(片道バージョン)
  \item 光が流れるプログラム(往復バージョン)
+ \item パルスモータ1-2相励磁プログラム
+ \item 電子サイコロのプログラム
+ \item タイマ割り込み制御プログラム
 \end{itemize}
 \clearpage
 \tableofcontents
@@ -19,46 +22,56 @@
   \subsection{プログラム概要}
   ８個あるLEDの1個を右端や左端から順次点灯することによって、光が流れるように見えるプログラム。
   \subsection{フローチャート}
+  このプログラムのフローチャートを図\ref{fig:flow_5-5}に示す。
   \begin{figure}[htbp]
    \begin{center}
-     \includegraphics[height=145mm]{Diagram5-5.eps}
+     \includegraphics[height=185mm]{Diagram5-5.eps}
    \end{center}
    \caption{フローチャート}
-   \label{fig}
+   \label{fig:flow_5-5}
   \end{figure}
    \clearpage
   \subsection{ソースコード}
-   \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+   \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single,numbers=left]
     {../5-5/5-5.asm}
    \end{lstinputlisting}
-  \subsection{実行結果}
-  \begin{eqnarray*}
-   {80}_{16} = 10000000_2 \\
-   ●○○○○○○○ \\
-   {40}_{16} = 01000000_2 \\
-   ○●○○○○○○ \\
-   {20}_{16} = 00100000_2 \\
-   ○○●○○○○○ \\
-   {10}_{16} = 00010000_2 \\
-   ○○○●○○○○ \\
-   {8}_{16}  = 00001000_2 \\
-   ○○○○●○○○ \\
-   {4}_{16}  = 00000100_2 \\
-   ○○○○○●○○ \\
-   {2}_{16}  = 00000010_2 \\
-   ○○○○○○●○ \\
-   {1}_{16}  = 00000001_2 \\
-   ○○○○○○○● \\
-   Cフラグ \\
-   ○○○○○○○○ \\
-   ●:点灯○:消灯
-  \end{eqnarray*}
-  このように、0.5秒毎に光る場所が、右に動いていく。右端に到達すると、すべてのLEDが消えるタイミングがある。
-  \subsection{考察}
-  ローテイト(RRF)命令は１ビットずつ右にシフトさせるもので、16進数において1ビット右にシフトさせることは2で割ることになる。
-  RRF命令はCフラグを経由してデータを回転するので端に到達したら一時的に全部が消える瞬間がある。
+   \clearpage
+  \subsection{実行結果・考察}
+   \begin{figure}[htbp]
+    \begin{center}
+     \begin{tabular}{cc}
+      {80}$_{16}$ = 10000000$_2$ \\
+      ●○○○○○○○ & □\\
+      {40}$_{16}$ = 01000000$_2$ \\
+      ○●○○○○○○ & □\\
+      {20}$_{16}$ = 00100000$_2$ \\
+      ○○●○○○○○ & □\\
+      {10}$_{16}$ = 00010000$_2$ \\
+      ○○○●○○○○ & □\\
+      {08}$_{16}$  = 00001000$_2$ \\
+      ○○○○●○○○ & □\\
+      {04}$_{16}$  = 00000100$_2$ \\
+      ○○○○○●○○ & □\\
+      {02}$_{16}$  = 00000010$_2$ \\
+      ○○○○○○●○ & □\\
+      {01}$_{16}$  = 00000001$_2$ \\
+      ○○○○○○○● & □\\
+      {00}$_{16}$  = 00000000$_2$ \\
+      ○○○○○○○○ & ■\\
+     \end{tabular}\\
+     ●:LED点灯 ○:LED消灯,■:Cフラグ1 □:Cフラグ0
+    \end{center}
+   \caption{光が流れるプログラム ( 片道バージョン )の実行結果}
+   \label{fig:out_5-5}
+   \end{figure}
+   図\ref{fig:out_5-5}ように、0.5秒毎に光る場所が右に動き、右端に到達するとすべてのLEDが消えるタイミングがある。
+   ローテイト(RRF)命令は１ビットずつ右にシフトさせるもので、16進数において1ビット右にシフトさせることは2で割ることになる。
+   RRF命令はCフラグを経由してデータを回転するので端に到達したら一時的に全部が消える瞬間がある。
+   \\
 
-  PICのクロック周波数は$10\si{\mega\hertz}$なので、1クロックあたりは
+   このプログラムのタイマについて考察してみる。
+
+   PICのクロック周波数は$10\si{\mega\hertz}$なので、1クロックあたりは
     \[
      \frac{1}{10\si{\mega\hertz}} = \SI{0.1}{\mu\second}
     \]
@@ -66,11 +79,11 @@
     \[
      \SI{0.1}{\mu\second} \times 4 = \SI{0.4}{\mu\second}
     \]
-     \begin{figure}[htbp]
+     \begin{figure}[h]
       \begin{center}
        \includegraphics[width=130mm]{Diagram5.eps}
       \end{center}
-      \caption{サイクル数}
+      \caption{サイクル数の考え方}
       \label{fig:sicle}
      \end{figure}
      TIMER1のサイクル数は図\ref{fig:sicle}より、249サイクルだとわかり、
@@ -82,114 +95,84 @@
      \[
       \SI{0.1}{\milli\second} \times 100 \times 50 = \SI{50}{\milli\second} = \SI{0.5}{\second}
      \]
-     合計で$\SI{0.5}{\second}$のタイマールーチンである。
+    よって合計で$\SI{0.5}{\second}$のタイマールーチンであることがわかる。
 
-     ローテイト(RRF)命令を0.5秒のタイマルーチンでび出すことで、0.5秒毎に光が動いているように見える。
-  \subsection{練習問題5.6}
-     \subsubsection{問題}
-     リスト5-5を点灯が左方向に移動するように変更せよ。
-     \subsubsection{回答}
-  \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
-;       RRF     PORTB,1     ;右方向
-        RLF     PORTB,1     ;左方向
-  \end{lstlisting}
-  このようにRRFをRLFに変更する。
+     ローテイト(RRF)命令を0.5秒のタイマルーチン毎に呼び出すことで、0.5秒毎に光が動いているように見える。
+     \\
 
-  RLF命令は１ビットずつ左にシフトさせるもので、16進数で1ビット左にシフトさせることは２をかけることになる。
-  RLF命令もRRF命令と同様に、Cフラグを経由してデータを回転するので、端に到達したら一時的に全部が消える瞬間がある。
-  \subsection{練習問題5.7}
-   \subsubsection{問題}
-   リスト5-5で、点灯の移動するスピードを早くして、目で確認できる最小の移動時間を調べなさい。
-   \subsubsection{回答}
-  \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
-TIMER1  MOVLW   D'62'       ;0.1ms
-        MOVWF   CNT1
-LOOP1   NOP
-        DECFSZ  CNT1,F
-        GOTO    LOOP1
-        RETURN
+     次に光の移動方向について考察してみる。
 
-TIMER2  MOVLW   D'100'      ;10ms
-        MOVLW   CNT2
-LOOP2   NOP
-        CALL    TIMER1
-        DECFSZ  CNT2,F
-        GOTO    LOOP2
-        RETURN
+     このプログラムにおいて、光の移動方向を決めているのは
+      \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+ 9行目     LEDD    EQU     80H     ;LEDの点灯データの設定
 
-TIMER3  MOVLW   D'10'       ;0.1s
-        MOVWF   CNT3
-LOOP3   NOP
-        CALL    TIMER2
-        DECFSZ  CNT3,F
-        GOTO    LOOP3
-        RETURN
-  \end{lstlisting}
-  このようにTIMER1のカウントはそのままにして、TIMER2とTIMER3のカウントのところを変更すると、
+24行目     RRF     PORTB,1         ;ポートBを1ビット右にローテイト
+      \end{lstlisting}
 
-  \[
-   \SI{0.1}{\milli\second} \times 100 \times 10 = \SI{10}{\milli\second} = \SI{0.1}{\second}
-  \]
+      この2つなので、次のように変更すれば左方向に移動するようになる。
+      \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+ 9行目     LEDD    EQU     01H     ;LEDの点灯データの設定
 
-  と、0.1秒間隔になりこれが目で確認できる最小の移動時間であるとわかった。
+24行目     RLF     PORTB,1         ;ポートBを1ビット右にローテイト
+      \end{lstlisting}
 
-  \clearpage
+      RLF命令もRRF命令と同様に、Cフラグを経由してデータを回転するので、端に到達したら一時的に全部が消える。
+
+      LEDの移動時間$S$を調整するにはTIMER1の0.1ミリ秒を基準にして、
+      \begin{eqnarray*}
+       S = \SI{0.1}{\milli\second} \times {\rm TIMER2 \times TIMER3} \\
+       {\rm TIMER2 \le 255},\ 
+       {\rm TIMER3 \le 255}
+      \end{eqnarray*}
+      TIMER2とTIMER3でループ回数を決める。
+ \clearpage
  \section{リスト5-6(光が流れるプログラム(往復バージョン))}
   \subsection{プログラム概要}
   8個LEDの1個を左端や右端から順次点灯していき、端に到達したら逆方向に点灯させることでLEDの点灯が、往復して流れるように見えるプログラム。
-  \subsection{ソースコード}
-  \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
-   {../5-6/5-6.asm}
-  \end{lstinputlisting}
-  \clearpage
   \subsection{フローチャート}
   \begin{figure}[htbp]
    \begin{center}
-    \includegraphics[height=170mm]{Diagram5-6.eps}
+    \includegraphics[height=180mm]{Diagram5-6.eps}
    \end{center}
-   \caption{フローチャート}
+   \caption{光が流れるプログラム ( 往復バージョン )のフローチャート}
    \label{fig}
   \end{figure}
   \clearpage
-  \subsection{実行結果}
-  \begin{eqnarray*}
-   {80}_{16} = 10000000_2 \\
-   ●○○○○○○○ \\
-   {40}_{16} = 01000000_2 \\
-   ○●○○○○○○ \\
-   {20}_{16} = 00100000_2 \\
-   ○○●○○○○○ \\
-   {10}_{16} = 00010000_2 \\
-   ○○○●○○○○ \\
-   {8}_{16}  = 00001000_2 \\
-   ○○○○●○○○ \\
-   {4}_{16}  = 00000100_2 \\
-   ○○○○○●○○ \\
-   {2}_{16}  = 00000010_2 \\
-   ○○○○○○●○ \\
-   {1}_{16}  = 00000001_2 \\
-   ○○○○○○○● \\
-   {2}_{16}  = 00000010_2 \\
-   ○○○○○○●○ \\
-   {4}_{16}  = 00000100_2 \\
-   ○○○○○●○○ \\
-   {8}_{16}  = 00001000_2 \\
-   ○○○○●○○○ \\
-   {10}_{16} = 00010000_2 \\
-   ○○○●○○○○ \\
-   {20}_{16} = 00100000_2 \\
-   ○○●○○○○○ \\
-   {40}_{16} = 01000000_2 \\
-   ○●○○○○○○ \\
-   {80}_{16} = 10000000_2 \\
-   ●○○○○○○○ \\
-   ●:点灯○:消灯
-  \end{eqnarray*}
-  左端から、0.2秒毎に光るところが右に動いていき右端になったら、左方向に戻ってくる。
-  \subsection{考察}
-  ローテイト命令は、Cフラグを含めてシフトするので、光が右端（０ビット目）または左端（７ビット目）に移動したことをCフラグで判定。
-  Cフラグが１の場合はオーバーフローかアンダーフローしているので、過分ローテイトの復旧（２ビット復旧）することで、なめらかに移動するように見える。
-  \subsection{練習問題5.8}
+  \subsection{ソースコード}
+   \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single,numbers=left]
+   {../5-6/5-6.asm}
+   \end{lstinputlisting}
+   \subsection{実行結果・考察}
+   \begin{figure}[htbp]
+    \begin{center}
+     \begin{tabular}{c|c}
+      {80}$_{16}$ = 10000000$_2$ & {1}$_{16}$  = 00000001$_2$ \\
+      ●○○○○○○○            & ○○○○○○○● \\
+      {40}$_{16}$ = 01000000$_2$ & {2}$_{16}$  = 00000010$_2$ \\
+      ○●○○○○○○            & ○○○○○○●○ \\
+      {20}$_{16}$ = 00100000$_2$ & {4}$_{16}$  = 00000100$_2$ \\
+      ○○●○○○○○            & ○○○○○●○○ \\
+      {10}$_{16}$ = 00010000$_2$ & {8}$_{16}$  = 00001000$_2$ \\
+      ○○○●○○○○            & ○○○○●○○○ \\
+      {8}$_{16}$  = 00001000$_2$ & {10}$_{16}$ = 00010000$_2$ \\
+      ○○○○●○○○            & ○○○●○○○○ \\
+      {4}$_{16}$  = 00000100$_2$ & {20}$_{16}$ = 00100000$_2$ \\
+      ○○○○○●○○            & ○○●○○○○○ \\
+      {2}$_{16}$  = 00000010$_2$ & {40}$_{16}$ = 01000000$_2$ \\
+      ○○○○○○●○            & ○●○○○○○○ \\
+      {1}$_{16}$  = 00000001$_2$ & {80}$_{16}$ = 10000000$_2$ \\
+      ○○○○○○○●            & ●○○○○○○○ \\
+     \end{tabular}\\
+     ●:LED点灯 ○:LED消灯
+     \caption{光が流れるプログラム ( 往復バージョン )の実行結果。左の列のあと右の列が実行される。}
+     \label{fig:out_5-6}
+    \end{center}
+   \end{figure}
+   図\ref{fig:out_5-6}のように左端から、0.2秒毎に光るところが右に動いていき右端になったら、移動方向を左にして移動する。
+   \\
+   ローテイト命令は、Cフラグを含めてシフトするので、光が右端（０ビット目）または左端（７ビット目）に移動したことをCフラグで判定。
+   Cフラグが１の場合はオーバーフローかアンダーフローしているので、過分ローテイトの復旧（２ビット復旧）することで、なめらかに移動するように見える。
+
   \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
 LEDD     EQU     80H    ;左端から右方向にスタート
 ;LEDD    EQU     01H    ;右端から左方向にスタート
