@@ -1,7 +1,5 @@
 *.O
 *.o
-*.hex
-*.HEX
 *.cof
 *.err
 *.lst
