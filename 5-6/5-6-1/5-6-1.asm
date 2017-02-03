@@ -35,6 +35,7 @@ LEFT    CALL    TIMER3          ;0.2秒タイマの呼び出し
 
         RRF     PORTB,1         ;過分ローテイトの復旧
         RRF     PORTB,1         ;過分ローテイトの復旧
+	GOTO	RIGHT
 
 ;止めるまで永遠に繰り返す
 

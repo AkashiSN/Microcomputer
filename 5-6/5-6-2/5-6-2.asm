@@ -30,6 +30,7 @@ LEFT    CALL    TIMER3          ;0.2秒タイマの呼び出し
         BTFSS   STATUS,C        ;Cフラグが1なら次の命令をスキップ
         GOTO    LEFT
 
+	GOTO 	RIGHT
 ;止めるまで永遠に繰り返す
 
 TIMER1  MOVLW   D'62'           ;0.1ミリ秒タイマサブルーチン

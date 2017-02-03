@@ -54,7 +54,7 @@ MAIN    BSF     STATUS,RP0      ;バンク1を選択
 
 REPEAT  BTFSS   INTG,0          ;タイマ0割り込み発生フラグのチェック
         GOTO    REPEAT          ;発生していなければ繰り返しチェック
-        BCF     INTG,0          ;発生していれば、フラグをクリア
+        BCF     INTC,0          ;発生していれば、フラグをクリア
         BTFSC   DATAF,0         ;データ設定フラグは0か
         GOTO    P2              ;1ならばパターン2へジャンプ
         MOVLW   LEDD1           ;0ならば点灯データ1をWレジスタにセット

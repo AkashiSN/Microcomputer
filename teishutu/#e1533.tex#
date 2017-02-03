@@ -30,6 +30,11 @@
   \subsection{ソースコード}
    \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
     {../5-5/5-5.asm}
+    \begin{enumerate}
+    \item
+    
+    \end{enumerate}
+
    \end{lstinputlisting}
   \subsection{実行結果}
   \begin{eqnarray*}

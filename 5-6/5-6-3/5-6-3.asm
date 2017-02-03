@@ -21,7 +21,7 @@ CNT4    EQU     0FH             ;移動回数を数えるカウント変数
         MOVLW   LEDD            ;点灯データをWレジスタにセット
         MOVWF   PORTB           ;点灯データをポートBに出力（LEDが点灯）
 
-START   MOVLW   D'7'            ;移動回数カウントループ
+START   MOVLW   D'8'            ;移動回数カウントループ
         MOVWF   CNT4            ;カウントデータをWレジスタにセット
 
 RIGHT   CALL    TIMER3          ;0.2秒タイマの呼び出し
