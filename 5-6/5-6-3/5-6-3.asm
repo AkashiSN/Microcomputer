@@ -45,8 +45,6 @@ LEFT    CALL    TIMER3          ;0.2秒タイマの呼び出し
 
         GOTO    START           ;STARTへ戻る
 
-;止めるまで永遠に繰り返す
-
 TIMER1  MOVLW   D'62'           ;0.1ミリ秒タイマサブルーチン
         MOVWF   CNT1
 LOOP1   NOP
