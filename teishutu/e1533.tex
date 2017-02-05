@@ -351,7 +351,7 @@
   入るように設定する。ボタン(RB0)のみ入力に設定し、RB1〜RB7はLEDの出力に設定する。
   ポートBをクリアしてLEDを消灯させる。
   ボタン(RBO)を押されるまで、Wレジスタに1番目から6番目までの点灯データを書き込む。
-  ボタン(RB0)が押されると割り込みが発生して、割り込みルーチンないでWレジスタの書き込みを
+  ボタン(RB0)が押されると割り込みが発生して、割り込みルーチン内でWレジスタの書き込みを
   禁止して、Wレジスタの内容をポートBに出力しLEDを点灯させる。TIMER1で1秒を測ってLEDを
   消灯させ、再び割り込みを許可して、Wレジスタに1番目から6番目までの点灯データを書き込む
   ところに戻って繰り返す。
@@ -393,7 +393,7 @@
     LEDが点灯している時にボタン(RB0)を押しても反応しない。消灯したあとに再びボタン(RB0)を押すと目1〜6のいずれかのパターンのLEDが1秒間再び点灯する。この動作を繰り返した。\\
 
     INTCONレジスタは表\ref{INTCON}と表\ref{INTCON-bit}に示すような意味を持っている。
-    INTCONレジスタを90$_{16}$にするということは\ref{INTCON}からGIEビットとINTEビットを
+    INTCONレジスタを90$_{16}$にするということは表\ref{INTCON}からGIEビットとINTEビットを
     1にすることでINT割り込み許可している。10$_{16}$についてはGIEビットを0にすることで全ての割り込みを禁止している。つまり00$_{16}$でも同じ意味を持つ。
 
     \begin{table}[htbp]
@@ -414,14 +414,14 @@
       \caption{INTCONレジスタの各ビットの説明}
       \label{INTCON-bit}
       \begin{tabular}{|c|c|l|l|}\hline
-       bit7&GIE&Global Interrupt Enable bit&全ての割り込み \\
-       bit6&EEIE&EE Write Complete Interrupt Enable bit&EEPROM割り込み \\
-       bit5&TOIE&TMR0 Overflow Interrupt Enable bit&タイマ0割り込み \\
-       bit4&INTE&RB0/INT External Interrupt Enable bit&INT割り込み \\
-       bit3&RBIE&RB Port Change Interrupt Enable bit&ポートB割り込み \\ \hline
-       bit2&TOIF&TMR0 Overflow Interrupt Flag bit&タイマ0割り込み \\
-       bit1&INTF&RB0/INT External Interrupt Flag bit&INT割り込み \\
-       bit0&RBIF&RB Port Change Interrupt Flag bit&ポートB割り込み \\ \hline
+       bit 7&GIE&Global Interrupt Enable bit&全ての割り込み \\
+       bit 6&EEIE&EE Write Complete Interrupt Enable bit&EEPROM割り込み \\
+       bit 5&TOIE&TMR0 Overflow Interrupt Enable bit&タイマ0割り込み \\
+       bit 4&INTE&RB0/INT External Interrupt Enable bit&INT割り込み \\
+       bit 3&RBIE&RB Port Change Interrupt Enable bit&ポートB割り込み \\ \hline
+       bit 2&TOIF&TMR0 Overflow Interrupt Flag bit&タイマ0割り込み \\
+       bit 1&INTF&RB0/INT External Interrupt Flag bit&INT割り込み \\
+       bit 0&RBIF&RB Port Change Interrupt Flag bit&ポートB割り込み \\ \hline
       \end{tabular}
 
       bit7〜bit3は割り込み許可の時1に、禁止の時0にする。\\
@@ -501,7 +501,7 @@
 
 ２つの点灯パターンがタイマー割り込みで交互に繰り返すプログラム。繰り返しの周期を１秒にするため、タイマー割り込みの最大周期約26ms($\approx$4$\mu$s$\times 2^{16}=26.2144$ms)を38回繰り返してから点灯パターンが切り替わるようにしている。なお26.2144$\times$38=996.1472ms$\approx$1sである。
 
-  メインルーチンでは、まず、RB0〜RB7をLEDの出力に設定する。タイマー割り込みを許可する。割り込み発生フラグをクリアし、割り込み回数カウンタCNTNを38回にして、データ設定フラグDATAFをクリアし、2番目の点灯データ(LEDD2)をPORTBに代入して、LEDを２番めの点灯パターンにする。次に、割り込み発生フラグをが1になるまで割り込み発生フラグの設定待ちループを繰り返す。割り込みが38回発生して、割り込み発生フラグがセットされていたら、次に進む。まず割り込み発生フラグをクリアする。もし、データ設定フラグDATAFがセットされていなかったら、点灯データを１番目(LEDD1)をPROTBに代入し、LEDを１番目の点灯パターンにする。データ設定フラグDATAFをセットする。そうではなくデータ設定フラグがセットされていたら、点灯データを2番目(LEDD2)をPROTBに代入し、LEDを2番目の点灯パターンにし、データ設定フラグをクリアする。　点灯パターンを変化させたあと、割り込み発生フラグの設定待ちのループを繰り返す。
+  メインルーチンでは、まず、RB0〜RB7をLEDの出力に設定する。タイマー割り込みを許可する。割り込み発生フラグをクリアし、割り込み回数カウンタCNTNを38回にして、データ設定フラグDATAFをクリアし、2番目の点灯データ(LEDD2)をPORTBに代入して、LEDを２番目の点灯パターンにする。次に、割り込み発生フラグをが1になるまで割り込み発生フラグの設定待ちループを繰り返す。割り込みが38回発生して、割り込み発生フラグがセットされていたら、次に進む。まず割り込み発生フラグをクリアする。もし、データ設定フラグDATAFがセットされていなかったら、点灯データを１番目(LEDD1)をPROTBに代入し、LEDを１番目の点灯パターンにする。データ設定フラグDATAFをセットする。そうではなくデータ設定フラグがセットされていたら、点灯データを2番目(LEDD2)をPROTBに代入し、LEDを2番目の点灯パターンにし、データ設定フラグをクリアする。　点灯パターンを変化させたあと、割り込み発生フラグの設定待ちのループを繰り返す。
 
   割り込みルーチンでは、タイマ割り込みが
 約26ms毎に入るので割り込み回数カウンタを1減らす。もし、そのカウンタが0になれば割り込み発生フラグをセットする。すなわち26msを38回繰り返したあと(約１秒後)に割り込み発生フラグがセットされる。
@@ -527,7 +527,7 @@
 
   図\ref{fig:timer-int-led}に示す点灯パターンを１秒毎に繰り返した。プログラムスタート時はLEDD2の点灯パターンである。
 
-  \begin{figure}
+  \begin{figure}[htbp]
     \begin{center}
        \begin{tabular}{c|c|c}\hline
 点灯パターン&７６５４３２１０ & データ \\ \hline
@@ -581,10 +581,10 @@
        新たな点灯パターンの種類をLEDD3として、図\ref{fig:timer-LED3pattern}のように全点灯のパターンを追加する。
 14行目と15行目の間に次を挿入。
       \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
-15行目LEDD3   EQU     0FFH            ;LED点灯データ3の設定
+15行目 LEDD3   EQU     0FFH            ;LED点灯データ3の設定
       \end{lstlisting}
 
-   \begin{figure}
+   \begin{figure}[htbp]
     \begin{center}
        \begin{tabular}{c|c|c}\hline
 点灯パターン&７６５４３２１０ & データ \\ \hline
