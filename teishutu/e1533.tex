@@ -344,4 +344,268 @@
      \end{table}
 
      このようにテーブルを与えて順に読みだす方式は非常に汎用的な制御方法と考えられる。
+     \clearpage
+\section{電子サイコロのプログラム}
+  \subsection{プログラム説明}
+  メインルーチンではINTピンによる割り込みを許可する。割り込みの立ち上がりのエッヂで割り込みが
+  入るように設定する。ボタン(RB0)のみ入力に設定し、RB1〜RB7はLEDの出力に設定する。
+  ポートBをクリアしてLEDを消灯させる。
+  ボタン(RBO)を押されるまで、Wレジスタに1番目から6番目までの点灯データを書き込む。
+  ボタン(RB0)が押されると割り込みが発生して、割り込みルーチンないでWレジスタの書き込みを
+  禁止して、Wレジスタの内容をポートBに出力しLEDを点灯させる。TIMER1で1秒を測ってLEDを
+  消灯させ、再び割り込みを許可して、Wレジスタに1番目から6番目までの点灯データを書き込む
+  ところに戻って繰り返す。
+  \subsection{フローチャート}
+  図\ref{fig:flow_5-13}にこのプログラムのフローチャートを示す。
+  \subsection{ソースコード}
+  \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single,numbers=left]
+   {../5-13/5-13.asm}
+  \end{lstinputlisting}
+  \clearpage
+   \begin{figure}[htbp]
+   \begin{center}
+    \includegraphics[height=200mm]{Diagram5-13.eps}
+   \end{center}
+   \caption{電子サイコロのプログラムのフローチャート}
+   \label{fig:flow_5-13}
+   \end{figure}
+   \clearpage
+  \subsection{実行結果・考察}
+  プログラムを実行する前にボードのRB0をDOWNにしておく。
+    \begin{figure}[htbp]
+     \begin{center}
+       \begin{tabular}{c|c|c}\hline
+        目&７６５４３２１０ & データ \\ \hline
+         1&○○○●○○○○ & $10_{16}=00010000_2$ \\
+         2&○○●○○○●○ & $22_{16}=00100010_2$\\
+         3&○○●●○○●○ & $32_{16}=00110010_2$\\
+         4&●○●○●○●○ & AA$_{16}=10101010_2$\\
+         5&●○●●●○●○ & BA$_{16}=10111010_2$\\
+         6&●●●○●●●○ & EE$_{16}=11101110_2$\\ \hline
+       \end{tabular}\\
+      ●:LED点灯 ○:LED消灯
+      \caption{電子サイコロのプログラムの点灯パターン}
+      \label{fig:out_5-13}
+     \end{center}
+    \end{figure}
+
+    プログラムを実行するとLEDが消灯し、ボタン(RB0)を押すと図\ref{fig:out_5-13}のように目1〜6のいずれかのパターンのLEDが1秒間点灯し、その後全てのLED消灯する。
+    LEDが点灯している時にボタン(RB0)を押しても反応しない。消灯したあとに再びボタン(RB0)を押すと目1〜6のいずれかのパターンのLEDが1秒間再び点灯する。この動作を繰り返した。\\
+
+    INTCONレジスタは表\ref{INTCON}と表\ref{INTCON-bit}に示すような意味を持っている。
+    INTCONレジスタを90$_{16}$にするということは\ref{INTCON}からGIEビットとINTEビットを
+    1にすることでINT割り込み許可している。10$_{16}$についてはGIEビットを0にすることで全ての割り込みを禁止している。つまり00$_{16}$でも同じ意味を持つ。
+
+    \begin{table}[htbp]
+     \begin{center}
+      \caption{INTCONレジスタの説明}
+      \label{INTCON}
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+       \multirow{2}{*}{INTCON} &bit 7&bit 6&bit 5&bit 4&bit 3&bit 2&bit 1&bit 0& \\ \cline{2-9}
+       &GIE&EEIE&TOIE&INTE&RBIE&TOIF&INTF&RBIF& \\ \hline
+       許可のとき&1&0&0&1&0&0&0&0&90$_{16}$ \\
+       禁止のとき&0&0&0&1&0&0&0&0&10$_{16}$ \\ \hline
+      \end{tabular}
+     \end{center}
+    \end{table}
+
+    \begin{table}[htbp]
+     \begin{center}
+      \caption{INTCONレジスタの各ビットの説明}
+      \label{INTCON-bit}
+      \begin{tabular}{|c|c|l|l|}\hline
+       bit7&GIE&Global Interrupt Enable bit&全ての割り込み \\
+       bit6&EEIE&EE Write Complete Interrupt Enable bit&EEPROM割り込み \\
+       bit5&TOIE&TMR0 Overflow Interrupt Enable bit&タイマ0割り込み \\
+       bit4&INTE&RB0/INT External Interrupt Enable bit&INT割り込み \\
+       bit3&RBIE&RB Port Change Interrupt Enable bit&ポートB割り込み \\ \hline
+       bit2&TOIF&TMR0 Overflow Interrupt Flag bit&タイマ0割り込み \\
+       bit1&INTF&RB0/INT External Interrupt Flag bit&INT割り込み \\
+       bit0&RBIF&RB Port Change Interrupt Flag bit&ポートB割り込み \\ \hline
+      \end{tabular}
+
+      bit7〜bit3は割り込み許可の時1に、禁止の時0にする。\\
+      特にbit7が0なら全ての割り込みが禁止される。\\
+      bit2〜bit0は割り込みが発生すると1がセットされる。\\
+      再び割り込みを受け付けるには0にクリアしなければならない。\\
+     \end{center}
+    \end{table}
+
+    NUM1は10$_{16}$という値で値そのものをWレジスタをポートBに転送することでLEDの点灯パターンにしている。
+    一方、CNT1は0D$_{16}$というファイルレジスタを指していて、そのファイルレジスタの値をカウンタとして利用している。
+    つまりNUM1は値を指していて、CNT1は値を保持する場所を指している。
+
+    \begin{figure}[h]
+      \begin{center}
+       \begin{tabular}[t]{|ccc|}
+        \hline
+        \rule[0mm]{0mm}{7mm}③&   &⑤\\
+        \rule[0mm]{0mm}{7mm}②& ④&⑥\\
+        \rule[0mm]{0mm}{7mm}①&   &⑦\\ \hline
+       \end{tabular}
+　　　%全角スペースあり
+       \begin{tabular}[t]{|ccc|}
+        \hline
+        \rule[0mm]{0mm}{7mm}●&   &●\\
+        \rule[0mm]{0mm}{7mm}●& ●&●\\
+        \rule[0mm]{0mm}{7mm}●&   &●\\ \hline
+       \end{tabular}
+　　　%全角スペースあり
+       \begin{tabular}[t]{|ccc|}
+        \hline
+        \rule[0mm]{0mm}{7mm}●&   &○\\
+        \rule[0mm]{0mm}{7mm}●& ●&●\\
+        \rule[0mm]{0mm}{7mm}○
+        &   &○\\ \hline
+       \end{tabular}
+
+   　　LED配置　　　　'H'の点灯パターン　'L'の点灯パターン
+
+       ●:LED点灯 ○:LED消灯
+      \end{center}
+       \caption{電子サイコロLED配置と'H','L'の点灯パターン}
+       \label{fig-HL}
+    \end{figure}
+
+    'H'と'L'の点灯パターンを図\ref{fig-HL}のように設定するとする。すなわち、
+    \begin{center}
+       \begin{tabular}{c|c|c}\hline
+        目&７６５４３２１０ & データ \\ \hline
+       'H'&●●●●●●●○ & FE$_{16}=11111110_2$ \\
+       'L'&○●○●●●○○ & 5A$_{16}=01011100_2$\\ \hline
+       \end{tabular}\\
+      ●:LED点灯 ○:LED消灯
+    \end{center}
+      のように点灯データを設定する。したがって、プログラムのソースコードのうち、点灯パターンを設定している10〜15行目を以下のように変更する。
+      \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+10行目     NUM1    EQU     FEH     ;LEDの点灯データ'H'の設定
+11行目     NUM2    EQU     5AH     ;LEDの点灯データ'L'の設定
+12行目     NUM3    EQU     FEH     ;LEDの点灯データ'H'の設定
+13行目     NUM4    EQU     5AH     ;LEDの点灯データ'L'の設定
+14行目     NUM5    EQU     FEH     ;LEDの点灯データ'H'の設定
+15行目     NUM6    EQU     5AH     ;LEDの点灯データ'L'の設定
+      \end{lstlisting}
+      これは単純にサイコロの目の６パターンを２パターンに置き替えた場合である。
+
+      他の考え方として、点灯データは10行目と11行目だけで設定し、NUM3〜NUM6をWレジスタに書き込むところを減らすやり方がある。その場合は、10〜11行目と、65行目を次に変更し、12〜15行目と、53行目〜64行目を削除する。
+      \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+10行目     NUM1    EQU     FEH     ;LEDの点灯データ'H'の設定
+11行目     NUM2    EQU     5AH     ;LEDの点灯データ'L'の設定
+65行目             MOVLW   NUM2    ;
+      \end{lstlisting}
+
+
+ \clearpage
+ \section{タイマ割り込み制御プログラム}
+  \subsection{プログラムの説明}
+
+２つの点灯パターンがタイマー割り込みで交互に繰り返すプログラム。繰り返しの周期を１秒にするため、タイマー割り込みの最大周期約26ms($\approx$4$\mu$s$\times 2^{16}=26.2144$ms)を38回繰り返してから点灯パターンが切り替わるようにしている。なお26.2144$\times$38=996.1472ms$\approx$1sである。
+
+  メインルーチンでは、まず、RB0〜RB7をLEDの出力に設定する。タイマー割り込みを許可する。割り込み発生フラグをクリアし、割り込み回数カウンタCNTNを38回にして、データ設定フラグDATAFをクリアし、2番目の点灯データ(LEDD2)をPORTBに代入して、LEDを２番めの点灯パターンにする。次に、割り込み発生フラグをが1になるまで割り込み発生フラグの設定待ちループを繰り返す。割り込みが38回発生して、割り込み発生フラグがセットされていたら、次に進む。まず割り込み発生フラグをクリアする。もし、データ設定フラグDATAFがセットされていなかったら、点灯データを１番目(LEDD1)をPROTBに代入し、LEDを１番目の点灯パターンにする。データ設定フラグDATAFをセットする。そうではなくデータ設定フラグがセットされていたら、点灯データを2番目(LEDD2)をPROTBに代入し、LEDを2番目の点灯パターンにし、データ設定フラグをクリアする。　点灯パターンを変化させたあと、割り込み発生フラグの設定待ちのループを繰り返す。
+
+  割り込みルーチンでは、タイマ割り込みが
+約26ms毎に入るので割り込み回数カウンタを1減らす。もし、そのカウンタが0になれば割り込み発生フラグをセットする。すなわち26msを38回繰り返したあと(約１秒後)に割り込み発生フラグがセットされる。
+
+
+  \subsection{フローチャート}
+  図\ref{fig:flow_5-14}にこのプログラムのフローチャートを示す。
+  \subsection{ソースコード}
+  \begin{lstinputlisting}[basicstyle=\ttfamily\footnotesize, frame=single,numbers=left]
+   {../5-14/5-14.asm}
+  \end{lstinputlisting}
+  \begin{figure}[htbp]
+    \begin{center}
+     \includegraphics[height=200mm]{Diagram5-14.eps}
+    \end{center}
+   \caption{タイマ割り込み制御プログラムのフローチャート}
+   \label{fig:flow_5-14}
+  \end{figure}
+
+  \clearpage
+  \subsection{実行結果・考察}
+  プログラムを実行する前にボードのRB0をDOWNにしておく。
+
+  図\ref{fig:timer-int-led}に示す点灯パターンを１秒毎に繰り返した。プログラムスタート時はLEDD2の点灯パターンである。
+
+  \begin{figure}
+    \begin{center}
+       \begin{tabular}{c|c|c}\hline
+点灯パターン&７６５４３２１０ & データ \\ \hline
+      LEDD1 &●○●○●○●○ & 55$_{16}=11111110_2$ \\
+      LEDD2 &○●○●○●○● & AA$_{16}=01011100_2$\\ \hline
+       \end{tabular}\\
+      ●:LED点灯 ○:LED消灯
+    \end{center}
+   \caption{タイマー割り込み制御プログラムのLED点灯パターン}
+   \label{fig:timer-int-led}
+  \end{figure}
+
+
+  周期を500msに変更するにはタイマー割り込みのカウントを減らせば良い。今、38回カウントしているのを半分にすれば500msになる。ソースコードでは
+      \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+12行目     CNTN    EQU     D'19'   ;割り込み回数データ
+      \end{lstlisting}
+      を変更するだけでよい。この時の周期は$4\mu$s$\times 2^{16}\times 19=498.0736$msとなり、約0.5秒となる。
+
+      点灯パターンを3種類にするには、データセットフラグDATAFを0,1の2種類ではなく3種類判定できるように変更すること、点灯パターンデータを3種類用意することである。
+55行目から68行目を次に入れ替える。
+      \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+55行目 REPEAT  BTFSS   INTG,0          ;タイマ0割り込み発生フラグのチェック
+56行目         GOTO    REPEAT          ;発生していなければ繰り返しチェック
+57行目         BCF     INTG,0          ;発生していれば、フラグをクリア
+58行目         BTFSC   DATAF,0         ;データ設定フラグ0ビット目は0か
+59行目         GOTO    P2              ;1ならばパターン2へジャンプ
+60行目         BTFSC   DATAF,1         ;データ設定フラグ1ビット目は0か
+61行目         GOTO    P3              ;1ならばパターン3へジャンプ
+62行目         MOVLW   LEDD2           ;0ならば点灯データ2をWレジスタにセット
+63行目         MOVWF   PORTB           ;点灯データ2をポートBに出力
+64行目         BSF     DATAF,0         ;データ設定フラグを01にセット
+65行目         GOTO    REPEAT          ;繰り返し起点へジャンプ
+66行目
+67行目 P2      MOVLW   LEDD3           ;点灯データ3をWレジスタにセット
+68行目         MOVWF   PORTB           ;点灯データ3をポートBに出力
+69行目         BCF     DATAF,0         ;データ設定フラグを
+70行目         BSF     DATAF,1         ;                 10にセット
+71行目         GOTO    REPEAT          ;繰り返し起点へジャンプ
+72行目
+73行目 P3      MOVLW   LEDD1           ;点灯データ1をWレジスタにセット
+74行目         MOVWF   PORTB           ;点灯データ1をポートBに出力
+75行目         BCF     DATAF,0         ;データ設定フラグを
+76行目         BCF     DATAF,1         ;                 00にセット
+77行目         GOTO    REPEAT          ;繰り返し起点へジャンプ
+      \end{lstlisting}
+
+       データ設定フラグを2桁で考える。DATAF=00$_{16}$のときLEDD1のパターン、DATAF=01$_{16}$のときLEDD2のパターン、DATAF=02$_{16}$=011$_2$のときLEDD3の状態と考える。
+       LEDD2$\to$LEDD3$\to$LEDD1$\to$LEDD2の順で変化するようにする。
+
+       新たな点灯パターンの種類をLEDD3として、図\ref{fig:timer-LED3pattern}のように全点灯のパターンを追加する。
+14行目と15行目の間に次を挿入。
+      \begin{lstlisting}[basicstyle=\ttfamily\footnotesize, frame=single]
+15行目LEDD3   EQU     0FFH            ;LED点灯データ3の設定
+      \end{lstlisting}
+
+   \begin{figure}
+    \begin{center}
+       \begin{tabular}{c|c|c}\hline
+点灯パターン&７６５４３２１０ & データ \\ \hline
+      LEDD1 &●○●○●○●○ & 55$_{16}=11111110_2$ \\
+      LEDD2 &○●○●○●○● & AA$_{16}=01011100_2$ \\
+      LEDD3 &●●●●●●●● & FF$_{16}=111111111_2$\\ \hline
+       \end{tabular}\\
+      ●:LED点灯 ○:LED消灯
+    \end{center}
+    \caption{3種類の点灯パターン}
+    \label{fig:timer-LED3pattern}
+\end{figure}
+
+変更したフローチャートを図\ref{fig:flow_5-14-1}に示す。
+  \begin{figure}[htbp]
+    \begin{center}
+     \includegraphics[height=180mm]{Diagram5-14-1.eps}
+    \end{center}
+   \caption{タイマ割り込み制御プログラムでLEDの点灯パターンが3種類の場合のフローチャート}
+   \label{fig:flow_5-14-1}
+  \end{figure}
 \end{document}
+
+
